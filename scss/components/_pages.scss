@@ -1,0 +1,43 @@
+/* Pages Styles*/
+.page {
+    main{
+        min-height: 100vh;
+    }
+    h1{
+        padding:2rem;
+    }
+}
+
+#nosotrosPage {
+    ul li {
+        text-align: left;
+    }
+    h2 {
+        padding:2rem;
+    }
+    .card{
+        &:hover{
+            transform: scale(1.1,1.1);
+        }
+        &:hover i {
+            color:$dark-green;
+        }
+        i {
+            font-size:2rem;
+            color:$dark-fucsia;
+        }
+    }
+}
+
+#faqAccordion{
+    .btn {
+        font-size: 2rem;
+        &:focus{
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgb(22,165,163);
+        }
+        @media (max-width: 576px) {
+            font-size: 1.5rem;
+        }
+    }
+}

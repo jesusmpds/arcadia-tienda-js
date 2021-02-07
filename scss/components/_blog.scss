@@ -1,0 +1,16 @@
+/* Blog Styles*/
+
+article.card{
+    border-radius: 10px;
+}
+
+.img-thumbnail{
+    border: 1px solid $dark-green;
+    border-radius: 50%;
+    height: 3rem;
+}
+.articleImage{
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

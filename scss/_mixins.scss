@@ -1,0 +1,11 @@
+// 
+@mixin text-link {
+    color:$dark-green;
+    text-decoration: none;
+    &:hover{
+        color: $dark-fucsia;
+        letter-spacing: 1px;
+        transition: all 0.5s;
+        text-decoration: none;
+    }
+}

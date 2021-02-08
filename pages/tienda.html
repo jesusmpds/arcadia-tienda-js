@@ -37,10 +37,32 @@
                         <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
                     </ul>
                 </div>
-                <div class="iconsHeader wow fadeInDown mr-3 text-white order-1 order-lg-2 order-xl-2">
+                <div class="iconsHeader wow fadeInDown mr-3 order-1 order-lg-2 order-xl-2">
                     <i class="icon-search"></i>
                     <i class="icon-user"></i>
-                    <i class="icon-cart"></i>
+                    <!-- Button trigger modal -->
+                    <i class="icon-cart" type="button" data-toggle="modal" data-target="#modalCarrito"></i>
+                    
+                          <!-- Modal -->
+                          <div class="modal fade" id="modalCarrito" tabindex="-1" role="dialog" aria-labelledby="modalCarrito" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalCenterTitle">TU CARRITO</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                  <button type="button" class="btn btn-primary">Ir a pagar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                 </div> 
             </nav>
         </header>
@@ -252,7 +274,7 @@
               <script>
               new WOW().init();
         </script>
-        <script src="../js/clase5.js"></script>
+        <script src="../js/scripts.js"></script>
         <script src="../js/bootstrap.min.js"></script>
     </body>
 </html>

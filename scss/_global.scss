@@ -87,6 +87,19 @@ header {
     background: linear-gradient(90deg, #16A5A3 0%, #DA2864 100%);
     font-size: 1.3rem;
     line-height: 1.5;
+        nav{
+            .iconsHeader{
+                color:$light-text;
+                    i{
+                        font-size: 1.7rem;
+                        margin-left: 0.5rem;
+                        &:hover{
+                            color: rgba(255,255,255,.75);
+                    }
+                }
+            }
+        }
+        
 }
 
 header a {

@@ -28,18 +28,22 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
         let precioProducto = document.createElement("p")
         precioProducto.classList.add("card-text", "align-self-center")
         precioProducto.textContent = `$ ${element["precio"]} `
-        // Tallas
+        // Tallas : creo el tag ul y recorro el array de tallas creando los botones para cada talla
+        // Añado un evento para añadirle al boton de agregar al carrito la talla que necesita.
         let listaTallas = document.createElement("ul")
         listaTallas.classList.add("list-group","list-group-horizontal")
             for(let talla of accederTalla){
              boton = document.createElement("button")
              boton.classList.add("list-group-item", "p-2")
              boton.textContent = talla
+             boton.setAttribute("producto",element.id)
+             boton.addEventListener("click",añadirTalla)
              listaTallas.appendChild(boton)
             }
         // Boton para agregar al carrito
         let btnAgregarCarrito = document.createElement("a")
         btnAgregarCarrito.classList.add("btn", "btn-primary", "mt-4")
+        btnAgregarCarrito.setAttribute("producto",element.id)
         btnAgregarCarrito.textContent = "Agregar al carrito"
         
         // Insertar tags dentro de cada una
@@ -51,3 +55,20 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
     }
 }
 
+//Añadir talla al boton de agregar carrito correspondiente. Añadir estilo
+function añadirTalla (){
+    let botonTalla = this.getAttribute("producto")
+    let arrayBotonesAgregarCarrito = document.querySelectorAll("a.btn.btn-primary.mt-4")
+    let botonesTallas = document.querySelectorAll("button.list-group-item")
+    for(i = 0; i < botonesTallas.length; i++){
+        botonesTallas[i].classList.remove("selected")
+    }
+    this.classList.add("selected")
+    
+    for (let i = 0; i < arrayBotonesAgregarCarrito.length; i++){
+        arrayBotonesAgregarCarrito[i].removeAttribute("talla")
+        if(botonTalla == arrayBotonesAgregarCarrito[i].getAttribute("producto")){
+            arrayBotonesAgregarCarrito[i].setAttribute("talla",this.textContent)
+        }
+    }
+}

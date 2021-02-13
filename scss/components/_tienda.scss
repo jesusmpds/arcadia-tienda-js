@@ -17,14 +17,21 @@ margin-bottom: 2rem;
 
 }
 
-button{
+#tiendaPage{
+    button{
     color:$dark-fucsia;
-    &:focus{
-        outline: none;
+        &:focus{
+            outline:none;
+        }
+    }
+    .selected {
         background-color: #104845;
+        color: white;
         border-color: #104845;
     }
 }
+
+
 
 #topsTienda .list-group-item:hover, #calzasTienda .list-group-item:hover{
     background-color: #104845;

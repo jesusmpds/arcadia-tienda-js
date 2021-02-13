@@ -1,79 +1,53 @@
+function renderizarProductos (baseDeDatosProductos,accederTalla,container){
 
+    for (let element of baseDeDatosProductos){
 
-
-
-/*function pedirDatosProducto(){
-    
-    datosProductoIngresado = prompt("¿Cuál prenda quisiera llevar?", 
-        "Ingrese el nombre, talla y cantidad separado por comas")
-    
-	datosProductoIngresado = formatearTexto(datosProductoIngresado)
-	datosProductoIngresado = conversionArray(datosProductoIngresado)
-	datosProductoIngresado = new Producto (datosProductoIngresado[0], undefined, parseInt(datosProductoIngresado[2]),datosProductoIngresado[1] )
-
-    while(datosProductoIngresado == "" || datosProductoIngresado == null){
-        datosProductoIngresado = prompt("Debe ingresar los datos de la prenda", 
-        "Ingrese uno por vez.")
+        // Div para crear la columna
+        let divCol = document.createElement("div")
+        divCol.classList.add('col-sm-6', 'col-md-4', 'col-xl-3')
+        // div para crear la card
+        let divCard = document.createElement("div")
+        divCard.classList.add('card')
+        //img del producto
+        let imgProducto = document.createElement("img")
+        imgProducto.classList.add('card-img-top')
+        imgProducto.setAttribute("src",element["imagen"])
+        imgProducto.setAttribute("alt",element["nombre"])
+        imgProducto.setAttribute("loading","lazy")
+        // Card body
+        let cardBody = document.createElement("div")
+        cardBody.classList.add("card-body")
+        // Titulo de la card del producto
+        let tituloProducto = document.createElement("h5")
+        tituloProducto.classList.add("card-title")
+        tituloProducto.textContent = element["nombre"]
+        // Div wrapper para el precio y talla 
+        let divWrapper = document.createElement("div")
+        divWrapper.classList.add("d-flex", "flex-row", "justify-content-between")
+        // Precio
+        let precioProducto = document.createElement("p")
+        precioProducto.classList.add("card-text", "align-self-center")
+        precioProducto.textContent = `$ ${element["precio"]} `
+        // Tallas
+        let listaTallas = document.createElement("ul")
+        listaTallas.classList.add("list-group","list-group-horizontal")
+            for(let talla of accederTalla){
+             boton = document.createElement("button")
+             boton.classList.add("list-group-item", "p-2")
+             boton.textContent = talla
+             listaTallas.appendChild(boton)
+            }
+        // Boton para agregar al carrito
+        let btnAgregarCarrito = document.createElement("a")
+        btnAgregarCarrito.classList.add("btn", "btn-primary", "mt-4")
+        btnAgregarCarrito.textContent = "Agregar al carrito"
+        
+        // Insertar tags dentro de cada una
+        container.appendChild(divCol)
+        divCol.appendChild(divCard)
+        divCard.append(imgProducto,cardBody)
+        cardBody.append(tituloProducto,divWrapper,btnAgregarCarrito)
+        divWrapper.append(precioProducto,listaTallas)
     }
-	console.log(datosProductoIngresado)
-    return datosProductoIngresado
-    
 }
 
-function formatearTexto(texto){
-	return texto.replace(/ /g,"").toLowerCase()
-}
-
-function conversionArray (texto2){
-	return texto2.split(",")
-}
-
-function buscarPrenda(array,producto) {
-
-    hayStock = false
-	for (var i = 0; i < array.length; i++){
-		if(array[i].nombre == producto.nombre){
-			alert("Hay stock")
-			hayStock = true
-			agregarPrecio(i,producto,array)
-			agregarAlCarrito(datosProductoIngresado)
-			break
-		}
-	}
-	if (!hayStock){
-    alert(`Esa prenda no está en nuestro inventario`)
-    }
-}
-
-function agregarPrecio(i,producto, productoBD){
-	return producto.precio = productoBD[i].precio
-}
-
-function agregarAlCarrito(producto){
-	let carrito1 = new Carrito(producto.nombre, producto.precio, producto.cantidad, producto.talla)
-	productosEnCarrito.push(carrito1)
-	return productosEnCarrito
-}
-
-function pedirMasProductos () {
-	let agregarMas = "no"
-	agregarMas = prompt("¿Desea agregar más prendas?", "Si o No")
-	agregarMas = formatearTexto(agregarMas)
-	while (agregarMas == "si"){
-		pedirDatosProducto()
-		buscarPrenda(listaProductos,datosProductoIngresado)
-		agregarMas = prompt("¿Desea agregar más prendas?", "Si o No")
-		agregarMas = formatearTexto(agregarMas)
-	}
-	
-}
-
-function resumenDelPedido (array){
-	for(var i = 0; i < array.length; i++){
-		alert(`Prenda: ${array[i].articuloNombre} - Talla: ${array[i].talla} - Cantidad: ${array[i].cantidad} - Precio: ${array[i].articuloPrecio}`)
-		total = 0
-		total = parseInt(total + array[i].articuloPrecio * array[i].cantidad)	
-	}
-	alert(`Total: ${total}`)
-}
-*/

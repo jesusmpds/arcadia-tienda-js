@@ -1,8 +1,10 @@
 
 // Variables ---->
+let i = 0
 let listaProductos = []
 let productosEnCarrito = []
-
+let containerTops = document.getElementById("topsTienda")
+let containerCalzas = document.getElementById("calzasTienda")
 
 // Objetos ---->  
 

@@ -83,12 +83,23 @@ function agregarCarrito() {
     
     if(indexTops == -1){
         let nuevoProductoCarrito = new Producto(listaProductos.calzas[indexCalzas].nombre,listaProductos.calzas[indexCalzas].precio, 1, tallaSeleccionada)
-        productosEnCarrito.push(nuevoProductoCarrito)
+        enCarrito(nuevoProductoCarrito,productosEnCarrito)
         
     } else if(indexCalzas == -1){
         let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada)
-        productosEnCarrito.push(nuevoProductoCarrito)
+        enCarrito(nuevoProductoCarrito,productosEnCarrito)
     }
 
     localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
+}
+
+function enCarrito(nuevoProducto,arrayCarrito){
+    if(arrayCarrito.length != 0){
+        for(let i = 0; i < arrayCarrito.length; i++){
+            if(nuevoProducto.nombre === arrayCarrito[i].nombre && nuevoProducto.talla === arrayCarrito[i].talla){
+                return arrayCarrito[i].cantidad++
+            }
+        }
+    }
+    arrayCarrito.push(nuevoProducto)
 }

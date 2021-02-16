@@ -37,7 +37,7 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
              boton.classList.add("list-group-item", "p-2")
              boton.textContent = talla
              boton.setAttribute("producto",element.id)
-             boton.addEventListener("click",añadirTalla)
+             boton.addEventListener("click",agregarTalla)
              listaTallas.appendChild(boton)
             }
         // Boton para agregar al carrito
@@ -45,6 +45,7 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
         btnAgregarCarrito.classList.add("btn", "btn-primary", "mt-4")
         btnAgregarCarrito.setAttribute("producto",element.id)
         btnAgregarCarrito.textContent = "Agregar al carrito"
+        btnAgregarCarrito.addEventListener("click",agregarCarrito)
         
         // Insertar tags dentro de cada una
         container.appendChild(divCol)
@@ -56,7 +57,7 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
 }
 
 //Añadir talla al boton de agregar carrito correspondiente. Añadir estilo
-function añadirTalla (){
+function agregarTalla (){
     let botonTalla = this.getAttribute("producto")
     let arrayBotonesAgregarCarrito = document.querySelectorAll("a.btn.btn-primary.mt-4")
     let botonesTallas = document.querySelectorAll("button.list-group-item")
@@ -71,4 +72,23 @@ function añadirTalla (){
             arrayBotonesAgregarCarrito[i].setAttribute("talla",this.textContent)
         }
     }
+}
+
+function agregarCarrito() {
+    let productoId = this.getAttribute("producto")
+    let tallaSeleccionada = this.getAttribute("talla")
+
+    let indexTops = listaProductos.tops.findIndex( index=> index.id  === productoId);
+    let indexCalzas = listaProductos.calzas.findIndex( index=> index.id  === productoId);
+    
+    if(indexTops == -1){
+        let nuevoProductoCarrito = new Producto(listaProductos.calzas[indexCalzas].nombre,listaProductos.calzas[indexCalzas].precio, 1, tallaSeleccionada)
+        productosEnCarrito.push(nuevoProductoCarrito)
+        
+    } else if(indexCalzas == -1){
+        let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada)
+        productosEnCarrito.push(nuevoProductoCarrito)
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
 }

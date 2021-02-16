@@ -18,12 +18,14 @@ margin-bottom: 2rem;
 }
 
 #tiendaPage{
-    button{
-    color:$dark-fucsia;
-        &:focus{
-            outline:none;
+    ul {
+        button{
+        color:$dark-fucsia;
+            &:focus{
+                outline:none;
+            }
         }
-    }
+    }   
     .selected {
         background-color: #104845;
         color: white;

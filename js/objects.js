@@ -3,30 +3,21 @@
 let i = 0
 let listaProductos = []
 let productosEnCarrito = []
+let containerCarrito = document.getElementById("carritoBody")
 let containerTops = document.getElementById("topsTienda")
 let containerCalzas = document.getElementById("calzasTienda")
 
 // Objetos ---->  
 
 class Producto {
-    constructor(nombre, precio, cantidad, talla){
+    constructor(nombre, precio, cantidad, talla,imagen){
         this.nombre = nombre
         this.precio = precio
         this.cantidad = cantidad
         this.talla = talla
-        
+        this.imagen = imagen
     }
 }
-
-class Carrito {
-    constructor(articuloNombre, articuloPrecio, cantidad, articuloTalla){
-        this.articuloNombre = articuloNombre
-        this.articuloPrecio = articuloPrecio
-        this.cantidad = cantidad
-        this.talla = articuloTalla
-    }
-}
-
 
 listaProductos = {
 

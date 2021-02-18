@@ -103,7 +103,7 @@ function agregarCarrito() {
             enCarrito(nuevoProductoCarrito,productosEnCarrito)
             
         } else if(indexCalzas == -1){
-            let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada,listaProductos.tops[indexCalzas].imagen)
+            let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada,listaProductos.tops[indexTops].imagen)
             enCarrito(nuevoProductoCarrito,productosEnCarrito)
         }
         localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))

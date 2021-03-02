@@ -3,9 +3,9 @@
 let i = 0
 let listaProductos = []
 let productosEnCarrito = []
-let containerCarrito = document.getElementById("carritoBody")
-let containerTops = document.getElementById("topsTienda")
-let containerCalzas = document.getElementById("calzasTienda")
+let containerCarrito = $("#carritoBody")
+let containerTops = $("#topsTienda")
+let containerCalzas = $("#calzasTienda")
 
 // Objetos ---->  
 

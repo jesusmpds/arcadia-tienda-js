@@ -84,7 +84,7 @@ function agregarCarrito() {
         let productoBoton = $(this)
         let divTallaAlerta = $('<div class="alert alert-danger mt-2"></div>')
         let parrafoTallaAlerta = $('<p>Escoja una talla</p>')
-        productoBoton.parent.append(divTallaAlerta)
+        productoBoton.parent().append(divTallaAlerta)
         divTallaAlerta.append(parrafoTallaAlerta)
     } else{
         if(indexTops == -1){
@@ -121,6 +121,20 @@ function crearProductos (){
 		let cantidadEnCarro = carritoStorage[i].cantidad
 		let tallaEnCarro = carritoStorage[i].talla
 		let imagenEnCarro = carritoStorage[i].imagen
+		let cantidadTotalProductos = cantidadEnCarro + carritoStorage[i].cantidad
+		let precioTotal = precioEnCarro + carritoStorage[i].precio
+		
+		const ROW_RESUMEN = $(`<p class="row">TOTAL(${cantidadTotalProductos}productos $${precioTotal}</p>`)
+		const DIV_PRODUCTOS = $(`<div class="col-12 d-flex justify-content-between"></div>`)
+		const IMG_PRODUCTO = $(`<img src="${imagenEnCarro}"> class="w-25"`)
+		const INFO_PRODUCTO = $(`<div></div>`)
+		const NOMBRE_PRODUCTO = $(`<p>${nombreEnCarro}</p>`)
+		const TALLA_PRODUCTO = $(`<input type="button" value="${tallaEnCarro}"></input>`)
+		const PRECIO_PRODUCTO = $(`<p>${precioEnCarro}</p>`)
+		
+		INFO_PRODUCTO.append(NOMBRE_PRODUCTO,TALLA_PRODUCTO,PRECIO_PRODUCTO)
+		DIV_PRODUCTOS.append(IMG_PRODUCTO,INFO_PRODUCTO)
+		containerCarrito.append(ROW_RESUMEN,DIV_PRODUCTOS)
         }
     }
 }

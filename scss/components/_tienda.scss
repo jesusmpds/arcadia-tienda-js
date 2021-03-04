@@ -47,9 +47,11 @@ margin-bottom: 2rem;
         margin: 1rem;
         img {
             min-height: 341.31px;
+            object-fit: cover;
+            }
         }
     }
-}
+
 
 p.card-text {
     margin:0;

@@ -73,6 +73,15 @@ function removerAlerta(){
         elementoAlerta.remove()
     }
 }
+//Añade alerta para que el usuario seleccione una talla
+function alertaAñadirTalla() {
+    Swal.fire({
+        icon: 'error',
+        title: '¡Oh no!',
+        text: 'Elige una talla para añadir tu prenda al carrito',
+      })
+    
+}
 
 //Añadir al carrito en LocalStorage para luego generar los elementos.
 function agregarCarrito() {
@@ -80,12 +89,14 @@ function agregarCarrito() {
     let indexTops = listaProductos.tops.findIndex( index=> index.id  === productoId);
     let indexCalzas = listaProductos.calzas.findIndex( index=> index.id  === productoId);
     let tallaSeleccionada = $(this).attr("talla")
+    
+    if(localStorage.getItem("carrito") !== null){
+        // Si no es null entonces a carrito le asigno el valor parseado de la clave "carrito" del storage
+        productosEnCarrito = JSON.parse(localStorage.getItem("carrito"))
+    }
+    
     if(tallaSeleccionada == null) {
-        let productoBoton = $(this)
-        let divTallaAlerta = $('<div class="alert alert-danger mt-2"></div>')
-        let parrafoTallaAlerta = $('<p>Escoja una talla</p>')
-        productoBoton.parent().append(divTallaAlerta)
-        divTallaAlerta.append(parrafoTallaAlerta)
+        alertaAñadirTalla()
     } else{
         if(indexTops == -1){
             let nuevoProductoCarrito = new Producto(listaProductos.calzas[indexCalzas].nombre,listaProductos.calzas[indexCalzas].precio, 1, tallaSeleccionada,listaProductos.calzas[indexCalzas].imagen)
@@ -96,7 +107,8 @@ function agregarCarrito() {
             enCarrito(nuevoProductoCarrito,productosEnCarrito)
         }
         localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
-        crearProductos ()
+        alertAñadidoAlCarrito()
+        crearProductos()
     }
 }
 
@@ -112,8 +124,20 @@ function enCarrito(nuevoProducto,arrayCarrito){
     arrayCarrito.push(nuevoProducto)
 }
 
+
+function alertAñadidoAlCarrito(){
+    Swal.fire(
+        '¡Genial!',
+        'Se añadió tu producto al carrito',
+        'success'
+      )
+}
+//Crea los productos en el carrito
 function crearProductos (){
     let carritoStorage = JSON.parse(localStorage.getItem("carrito"))
+    
+    limpiarDuplicadosCarrito()
+    
     if(carritoStorage !== null){
         for(i = 0; i < carritoStorage.length; i++){
         let nombreEnCarro = carritoStorage[i].nombre
@@ -138,3 +162,16 @@ function crearProductos (){
         }
     }
 }
+
+//Cuando se hace click en el boton del carrito se generan los productos
+$(".icon-cart").click(crearProductos())
+
+function limpiarDuplicadosCarrito(){
+    // Asigno el elemento padre a la variable place
+    let place = $(containerCarrito)
+    // Uso un while para que mientras el nodo padre tenga hijos, los vaya eliminando
+    while (place.firstChild){
+        place.remove(place.firstChild);
+      }
+    }
+

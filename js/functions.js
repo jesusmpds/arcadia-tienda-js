@@ -184,7 +184,7 @@ function crearProductos (){
             DIV_NOMBRE_PRECIO.append(HEADING_NOMBRE,HEADING_PRECIO)
     		BOTON_REMOVER.append(BOTON_SPAN)
     		// Creo Option tags del uno al 10 para la cantidad de productos y la añado al select
-    		for(let i = 0; i< 11; i++){
+    		for(let i = 1; i< 11; i++){
     		    let option = $(`<option value="${i}">${i}</option>`)
     		    SELECT.append(option)
     		}

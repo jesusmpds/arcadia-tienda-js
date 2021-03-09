@@ -1,3 +1,12 @@
+$(document).ready(
+    $.ajax({
+        url:"../productos.json",
+        type: "GET",
+        dataType:"json",
+    }).done(function (productos) {
+        return listaProductos = productos
+        })
+)
 function renderizarProductos (baseDeDatosProductos,accederTalla,container){
     
     for (let element of baseDeDatosProductos){
@@ -63,16 +72,8 @@ function agregarTalla (){
             $(arrayBotonesAgregarCarrito[i]).attr("talla",$(this).text())
         }
     }
-    removerAlerta()
 }
 
-//Funcion que remueve el alerta de añadir talla al producto
-function removerAlerta(){
-    let elementoAlerta = $("div.alert.alert-danger")
-    if(elementoAlerta !== null){
-        elementoAlerta.remove()
-    }
-}
 //Añade alerta para que el usuario seleccione una talla
 function alertaAñadirTalla() {
     Swal.fire({
@@ -80,7 +81,14 @@ function alertaAñadirTalla() {
         title: '¡Oh no!',
         text: 'Elige una talla para añadir tu prenda al carrito',
       })
-    
+}
+
+function alertAñadidoAlCarrito(){
+    Swal.fire(
+        '¡Genial!',
+        'Se añadió tu producto al carrito',
+        'success'
+      )
 }
 
 //Añadir al carrito en LocalStorage para luego generar los elementos.
@@ -125,40 +133,75 @@ function enCarrito(nuevoProducto,arrayCarrito){
 }
 
 
-function alertAñadidoAlCarrito(){
-    Swal.fire(
-        '¡Genial!',
-        'Se añadió tu producto al carrito',
-        'success'
-      )
-}
+
 //Crea los productos en el carrito
 function crearProductos (){
     let carritoStorage = JSON.parse(localStorage.getItem("carrito"))
+    console.log(carritoStorage)
     
     limpiarDuplicadosCarrito()
     
     if(carritoStorage !== null){
+    //Creo resumen de la compra
+        for(let i = 0; i < carritoStorage.length; i++){
+            let precioEnCarro = carritoStorage[i].precio
+    		let cantidadEnCarro = carritoStorage[i].cantidad
+    		
+    		function cantidadResumen() {
+                if (carritoStorage.length == 1) {
+                    return cantidadEnCarro
+                } else {
+                    return cantidadEnCarro += carritoStorage[i].cantidad
+                }
+            }
+    		function precioResumen() {
+                if (carritoStorage.length == 1) {
+                    return precioEnCarro
+                } else {
+                    return precioEnCarro += carritoStorage[i].precio
+                }
+            }
+        }
+        const DIV_RESUMEN = $("#precioTotal")
+        const RESUMEN_CARRO = $(`<p class="row">TOTAL: ${cantidadResumen()} productos ($${precioResumen()})</p>`)
+        
+		DIV_RESUMEN.append(RESUMEN_CARRO)
+        
+        // Creo productos en el carrito
         for(i = 0; i < carritoStorage.length; i++){
-        let nombreEnCarro = carritoStorage[i].nombre
-		let precioEnCarro = carritoStorage[i].precio
-		let cantidadEnCarro = carritoStorage[i].cantidad
-		let tallaEnCarro = carritoStorage[i].talla
-		let imagenEnCarro = carritoStorage[i].imagen
-		let cantidadTotalProductos = cantidadEnCarro + carritoStorage[i].cantidad
-		let precioTotal = precioEnCarro + carritoStorage[i].precio
-		
-		const ROW_RESUMEN = $(`<p class="row">TOTAL(${cantidadTotalProductos}productos $${precioTotal}</p>`)
-		const DIV_PRODUCTOS = $(`<div class="col-12 d-flex justify-content-between"></div>`)
-		const IMG_PRODUCTO = $(`<img src="${imagenEnCarro}"> class="w-25"`)
-		const INFO_PRODUCTO = $(`<div></div>`)
-		const NOMBRE_PRODUCTO = $(`<p>${nombreEnCarro}</p>`)
-		const TALLA_PRODUCTO = $(`<input type="button" value="${tallaEnCarro}"></input>`)
-		const PRECIO_PRODUCTO = $(`<p>${precioEnCarro}</p>`)
-		
-		INFO_PRODUCTO.append(NOMBRE_PRODUCTO,TALLA_PRODUCTO,PRECIO_PRODUCTO)
-		DIV_PRODUCTOS.append(IMG_PRODUCTO,INFO_PRODUCTO)
-		containerCarrito.append(ROW_RESUMEN,DIV_PRODUCTOS)
+            let nombreEnCarro = carritoStorage[i].nombre
+    		let precioEnCarro = carritoStorage[i].precio
+    		let cantidadEnCarro = carritoStorage[i].cantidad
+    		let tallaEnCarro = carritoStorage[i].talla
+    		let imagenEnCarro = carritoStorage[i].imagen
+    		
+    		const DIV_PRODUCTOS = $("#listaProductosCarrito")
+    		const PRODUCTO_DIV = $(`<div class="media border rounded w-100 mb-2"></div>`)
+    		const DIV_IMAGEN = $(`<div class="col-6 col-md-4"></div>`)
+            const IMG_PRODUCTO = $(`<img src="${imagenEnCarro}" class="mr-3 w-100">`)
+            const DIV_INFO_PRODUCTO = $(`<div class="col-6 col-md-8 media-body p-3"></div>`)
+            const DIV_NOMBRE_PRECIO = $(`<div class="row justify-content-between"></div>`)
+            const HEADING_NOMBRE = $(`<h3 class="mt-0 ">${nombreEnCarro}</h3>`)
+    		const HEADING_PRECIO= $(`<h3 class="pr-3"> $${precioEnCarro}</h3>`)
+    		const HEADING_TALLA= $(`<h3 class="mt-5">Talla:<p class="d-inline"> ${tallaEnCarro}</p></h3>`)
+    		const DIV_CANTIDAD_PRODUCTO = $(`<div class="d-flex justify-content-between mt-5" id="cantidadProducto"></div>`)
+    		const SELECT = $(`<select></select>`)
+    		const BOTON_REMOVER = $(`<button type="button" class="col-1 close" aria-label="Close"></button>`)
+    		const BOTON_SPAN = $(`<span aria-hidden="true">&times;</span>`)
+    		
+    		//Añado los elementos
+    		DIV_PRODUCTOS.append(PRODUCTO_DIV)
+            PRODUCTO_DIV.append(DIV_IMAGEN,DIV_INFO_PRODUCTO,BOTON_REMOVER)
+            DIV_IMAGEN.append(IMG_PRODUCTO)
+            DIV_INFO_PRODUCTO.append(DIV_NOMBRE_PRECIO,HEADING_TALLA,DIV_CANTIDAD_PRODUCTO)
+            DIV_CANTIDAD_PRODUCTO.append(SELECT)
+            DIV_NOMBRE_PRECIO.append(HEADING_NOMBRE,HEADING_PRECIO)
+    		BOTON_REMOVER.append(BOTON_SPAN)
+    		// Creo Option tags del uno al 10 para la cantidad de productos y la añado al select
+    		for(let i = 0; i< 11; i++){
+    		    let option = $(`<option value="${i}">${i}</option>`)
+    		    SELECT.append(option)
+    		}
         }
     }
 }
@@ -168,10 +211,21 @@ $(".icon-cart").click(crearProductos())
 
 function limpiarDuplicadosCarrito(){
     // Asigno el elemento padre a la variable place
-    let place = $(containerCarrito)
+    let resumen = $("#precioTotal")
+    let productos = $("#listaProductosCarrito")
+    
     // Uso un while para que mientras el nodo padre tenga hijos, los vaya eliminando
-    while (place.firstChild){
-        place.remove(place.firstChild);
+    while (resumen.firstChild ){
+        
+        resumen.remove(resumen.firstChild);
+        console.log(resumen.firstChild)
+      }
+      while (productos.firstChild){
+        productos.remove(productos.firstChild)
+        console.log(productos.firstChild)
       }
     }
 
+// Llamar a las Funciones ---->
+renderizarProductos (listaProductos.tops,listaProductos.tops[0].talla,containerTops)
+renderizarProductos (listaProductos.calzas,listaProductos.calzas[0].talla,containerCalzas)

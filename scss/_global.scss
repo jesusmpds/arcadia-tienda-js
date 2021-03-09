@@ -178,3 +178,33 @@ footer {
                 }
         }
 }
+
+// Modal Styles
+
+#listaProductosCarrito {
+
+    img {
+        height: 100%;
+    }
+
+    .close{
+        font-size: 3rem;
+        line-height: 0.8;
+    }
+    
+    #cantidadProducto{
+        cursor: pointer;
+        margin-top: 3rem;
+        height: 50px;
+        width:50%;
+        
+            select{
+                width: 100%;
+                border: 1px solid #767677;
+                border-radius: .25rem;
+                padding-left: 10px;
+                padding-right: 6px;
+            }
+    }
+    
+}

@@ -128,36 +128,31 @@ function enCarrito(nuevoProducto,arrayCarrito){
 //Crea los productos en el carrito
 function crearProductos (){
     let carritoStorage = JSON.parse(localStorage.getItem("carrito"))
-    console.log(carritoStorage)
     
     limpiarDuplicadosCarrito()
     
     if(carritoStorage !== null){
     //Creo resumen de la compra
-        for(let i = 0; i < carritoStorage.length; i++){
-            let precioEnCarro = carritoStorage[i].precio
-    		let cantidadEnCarro = carritoStorage[i].cantidad
-    		
-    		function cantidadResumen() {
-                if (carritoStorage.length == 1) {
-                    return cantidadEnCarro
-                } else {
-                    return cantidadEnCarro += carritoStorage[i].cantidad
-                }
-            }
-    		function precioResumen() {
-                if (carritoStorage.length == 1) {
-                    return precioEnCarro
-                } else {
-                    return precioEnCarro += carritoStorage[i].precio
-                }
+        function añadirCantidadesOPrecios (productos, llave){
+            let total = 0 
+            productos.forEach(item => total += item[llave])
+            return total
+        }
+        let cantidadTotal = añadirCantidadesOPrecios(carritoStorage,"cantidad")
+        let precioTotal = añadirCantidadesOPrecios(carritoStorage,"precio")
+        function unoOVariosProductos(){
+            if(cantidadTotal === 1){
+                return "producto"
+            }else{
+                return "productos"
             }
         }
-        const DIV_RESUMEN = $("#precioTotal")
-        const RESUMEN_CARRO = $(`<p class="row">TOTAL: ${cantidadResumen()} productos ($${precioResumen()})</p>`)
+            const DIV_RESUMEN = $("#precioTotal")
+            const RESUMEN_CARRO = $(`<p class="row">TOTAL: ${cantidadTotal} ${unoOVariosProductos()} ($${precioTotal})</p>`)
+            
+            DIV_RESUMEN.append(RESUMEN_CARRO)
         
-		DIV_RESUMEN.append(RESUMEN_CARRO)
-        
+
         // Creo productos en el carrito
         for(i = 0; i < carritoStorage.length; i++){
             let nombreEnCarro = carritoStorage[i].nombre
@@ -196,23 +191,10 @@ function crearProductos (){
         }
     }
 }
-
 //Cuando se hace click en el boton del carrito se generan los productos
 $(".icon-cart").click(crearProductos())
 
 function limpiarDuplicadosCarrito(){
-    // Asigno el elemento padre a la variable place
-    let resumen = $("#precioTotal")
-    let productos = $("#listaProductosCarrito")
-    
-    // Uso un while para que mientras el nodo padre tenga hijos, los vaya eliminando
-    while (resumen.firstChild ){
-        
-        resumen.remove(resumen.firstChild);
-        console.log(resumen.firstChild)
-      }
-      while (productos.firstChild){
-        productos.remove(productos.firstChild)
-        console.log(productos.firstChild)
-      }
-    }
+    $("#precioTotal").empty()
+    $("#listaProductosCarrito").empty()
+}

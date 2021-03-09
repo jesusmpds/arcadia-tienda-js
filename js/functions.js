@@ -1,12 +1,4 @@
 $(document).ready(
-    $.ajax({
-        url:"../productos.json",
-        type: "GET",
-        dataType:"json",
-    }).done(function (productos) {
-        return listaProductos = productos
-        })
-)
 function renderizarProductos (baseDeDatosProductos,accederTalla,container){
     
     for (let element of baseDeDatosProductos){
@@ -49,7 +41,7 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
         entrarEstilo(DIV_COL)
     }
 }
-
+)
 // Animación de entrada productos
 function entrarEstilo(elementos) {
     $(elementos).hide()
@@ -225,7 +217,3 @@ function limpiarDuplicadosCarrito(){
         console.log(productos.firstChild)
       }
     }
-
-// Llamar a las Funciones ---->
-renderizarProductos (listaProductos.tops,listaProductos.tops[0].talla,containerTops)
-renderizarProductos (listaProductos.calzas,listaProductos.calzas[0].talla,containerCalzas)

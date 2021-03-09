@@ -1,4 +1,3 @@
-$(document).ready(
 function renderizarProductos (baseDeDatosProductos,accederTalla,container){
     
     for (let element of baseDeDatosProductos){
@@ -41,7 +40,7 @@ function renderizarProductos (baseDeDatosProductos,accederTalla,container){
         entrarEstilo(DIV_COL)
     }
 }
-)
+
 // Animación de entrada productos
 function entrarEstilo(elementos) {
     $(elementos).hide()

@@ -18,13 +18,3 @@ class Producto {
         this.imagen = imagen
     }
 }
-
-$(document).ready(
-    $.ajax({
-        url:"../productos.json",
-        type: "GET",
-        dataType:"json",
-    }).done(function (productos) {
-        return listaProductos = productos
-        })
-)

@@ -133,13 +133,21 @@ function crearProductos (){
     
     if(carritoStorage !== null){
     //Creo resumen de la compra
-        function añadirCantidadesOPrecios (productos, llave){
-            let total = 0 
-            productos.forEach(item => total += item[llave])
+        function cantidadResumen(productos,cantidad) {
+            let total = 0
+            productos.forEach(item => total += item[cantidad])
             return total
         }
-        let cantidadTotal = añadirCantidadesOPrecios(carritoStorage,"cantidad")
-        let precioTotal = añadirCantidadesOPrecios(carritoStorage,"precio")
+        
+        function precioResumen(productos,cantidad,precio) {
+            let total = 0
+            productos.forEach(item => total += (item[cantidad] * item[precio]))
+            return total
+        }
+        
+        let cantidadTotal = cantidadResumen(carritoStorage,"cantidad")
+        let precioTotal = precioResumen(carritoStorage,"cantidad","precio")
+        
         function unoOVariosProductos(){
             if(cantidadTotal === 1){
                 return "producto"
@@ -152,7 +160,6 @@ function crearProductos (){
             
             DIV_RESUMEN.append(RESUMEN_CARRO)
         
-
         // Creo productos en el carrito
         for(i = 0; i < carritoStorage.length; i++){
             let nombreEnCarro = carritoStorage[i].nombre
@@ -188,7 +195,10 @@ function crearProductos (){
     		    let option = $(`<option value="${i}">${i}</option>`)
     		    SELECT.append(option)
     		}
-        }
+    		//Añadir valor de la cantidad al select
+    		SELECT.val(cantidadEnCarro)
+    		// TODO: SELECT.on()
+        }   
     }
 }
 //Cuando se hace click en el boton del carrito se generan los productos

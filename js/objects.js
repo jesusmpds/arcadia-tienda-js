@@ -10,7 +10,8 @@ let containerCalzas = $("#calzasTienda")
 // Objetos ---->  
 
 class Producto {
-    constructor(nombre, precio, cantidad, talla,imagen){
+    constructor(id,nombre, precio, cantidad, talla,imagen){
+        this.id = id
         this.nombre = nombre
         this.precio = precio
         this.cantidad = cantidad

@@ -98,11 +98,11 @@ function agregarCarrito() {
         alertaAñadirTalla()
     } else{
         if(indexTops == -1){
-            let nuevoProductoCarrito = new Producto(listaProductos.calzas[indexCalzas].nombre,listaProductos.calzas[indexCalzas].precio, 1, tallaSeleccionada,listaProductos.calzas[indexCalzas].imagen)
+            let nuevoProductoCarrito = new Producto(listaProductos.calzas[indexCalzas].id,listaProductos.calzas[indexCalzas].nombre,listaProductos.calzas[indexCalzas].precio, 1, tallaSeleccionada,listaProductos.calzas[indexCalzas].imagen)
             enCarrito(nuevoProductoCarrito,productosEnCarrito)
             
         } else if(indexCalzas == -1){
-            let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada,listaProductos.tops[indexTops].imagen)
+            let nuevoProductoCarrito = new Producto(listaProductos.tops[indexTops].id,listaProductos.tops[indexTops].nombre,listaProductos.tops[indexTops].precio, 1, tallaSeleccionada,listaProductos.tops[indexTops].imagen)
             enCarrito(nuevoProductoCarrito,productosEnCarrito)
         }
         localStorage.setItem("carrito", JSON.stringify(productosEnCarrito))
@@ -123,8 +123,6 @@ function enCarrito(nuevoProducto,arrayCarrito){
     arrayCarrito.push(nuevoProducto)
 }
 
-
-
 //Crea los productos en el carrito
 function crearProductos (){
     let carritoStorage = JSON.parse(localStorage.getItem("carrito"))
@@ -133,13 +131,21 @@ function crearProductos (){
     
     if(carritoStorage !== null){
     //Creo resumen de la compra
-        function añadirCantidadesOPrecios (productos, llave){
-            let total = 0 
-            productos.forEach(item => total += item[llave])
+        function cantidadResumen(productos,cantidad) {
+            let total = 0
+            productos.forEach(item => total += item[cantidad])
             return total
         }
-        let cantidadTotal = añadirCantidadesOPrecios(carritoStorage,"cantidad")
-        let precioTotal = añadirCantidadesOPrecios(carritoStorage,"precio")
+        
+        function precioResumen(productos,cantidad,precio) {
+            let total = 0
+            productos.forEach(item => total += (item[cantidad] * item[precio]))
+            return total
+        }
+        
+        let cantidadTotal = cantidadResumen(carritoStorage,"cantidad")
+        let precioTotal = precioResumen(carritoStorage,"cantidad","precio")
+        
         function unoOVariosProductos(){
             if(cantidadTotal === 1){
                 return "producto"
@@ -152,9 +158,9 @@ function crearProductos (){
             
             DIV_RESUMEN.append(RESUMEN_CARRO)
         
-
         // Creo productos en el carrito
         for(i = 0; i < carritoStorage.length; i++){
+            let idEnCarro = carritoStorage[i].id
             let nombreEnCarro = carritoStorage[i].nombre
     		let precioEnCarro = carritoStorage[i].precio
     		let cantidadEnCarro = carritoStorage[i].cantidad
@@ -171,9 +177,9 @@ function crearProductos (){
     		const HEADING_PRECIO= $(`<h3 class="pr-3"> $${precioEnCarro}</h3>`)
     		const HEADING_TALLA= $(`<h3 class="mt-5">Talla:<p class="d-inline"> ${tallaEnCarro}</p></h3>`)
     		const DIV_CANTIDAD_PRODUCTO = $(`<div class="d-flex justify-content-between mt-5" id="cantidadProducto"></div>`)
-    		const SELECT = $(`<select></select>`)
+    		const SELECT = $(`<select producto="${idEnCarro}" talla="${tallaEnCarro}"></select>`)
     		const BOTON_REMOVER = $(`<button type="button" class="col-1 close" aria-label="Close"></button>`)
-    		const BOTON_SPAN = $(`<span aria-hidden="true">&times;</span>`)
+    		const BOTON_SPAN = $(`<span producto="${idEnCarro}" talla="${tallaEnCarro}" aria-hidden="true">&times;</span>`)
     		
     		//Añado los elementos
     		DIV_PRODUCTOS.append(PRODUCTO_DIV)
@@ -188,11 +194,46 @@ function crearProductos (){
     		    let option = $(`<option value="${i}">${i}</option>`)
     		    SELECT.append(option)
     		}
-        }
+    		//Añadir valor de la cantidad al select
+    		SELECT.val(cantidadEnCarro)
+    		// Si el usuario cambia el valor que se actualice el resumen y el precio del producto.y guardo en el localStorage
+            SELECT.change(cambiarValor)
+            //remover del carrito
+            BOTON_SPAN.click(removerProducto)
+        }   
     }
 }
+// Funcion que cambia la cantidad, y crea los prodctos de nuevo para actualizar el resumen 
+function cambiarValor(event){
+    let cantidad = parseInt($(this).val())
+    let productoId = event.target.attributes[0].value
+    let productoTalla = event.target.attributes[1].value
+    let carrito = JSON.parse(localStorage.getItem("carrito"))
+    let actualizaCantidad = () => {
+        carrito.forEach(item => {
+            if(item.id === productoId && item.talla === productoTalla){
+                item.cantidad = cantidad
+                return carrito
+            }
+        })
+        localStorage.setItem("carrito", JSON.stringify(carrito))
+    }
+    actualizaCantidad()
+    crearProductos()
+}
+
+function removerProducto(event){
+    let productoId = event.target.attributes[0].value
+    let productoTalla = event.target.attributes[1].value
+    
+    let carrito = JSON.parse(localStorage.getItem("carrito"))
+    carrito.splice(carrito.findIndex(item => item.id === productoId && item.talla === productoTalla),1)
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+    crearProductos()
+}
+
 //Cuando se hace click en el boton del carrito se generan los productos
-$(".icon-cart").click(crearProductos())
+$(".icon-cart").click(crearProductos)
 
 function limpiarDuplicadosCarrito(){
     $("#precioTotal").empty()

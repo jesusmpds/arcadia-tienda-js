@@ -131,32 +131,7 @@ function crearProductos (){
     
     if(carritoStorage !== null){
     //Creo resumen de la compra
-        function cantidadResumen(productos,cantidad) {
-            let total = 0
-            productos.forEach(item => total += item[cantidad])
-            return total
-        }
-        
-        function precioResumen(productos,cantidad,precio) {
-            let total = 0
-            productos.forEach(item => total += (item[cantidad] * item[precio]))
-            return total
-        }
-        
-        let cantidadTotal = cantidadResumen(carritoStorage,"cantidad")
-        let precioTotal = precioResumen(carritoStorage,"cantidad","precio")
-        
-        function unoOVariosProductos(){
-            if(cantidadTotal === 1){
-                return "producto"
-            }else{
-                return "productos"
-            }
-        }
-            const DIV_RESUMEN = $("#precioTotal")
-            const RESUMEN_CARRO = $(`<p class="row">TOTAL: ${cantidadTotal} ${unoOVariosProductos()} ($${precioTotal})</p>`)
-            
-            DIV_RESUMEN.append(RESUMEN_CARRO)
+        crearResumen(carritoStorage)
         
         // Creo productos en el carrito
         for(i = 0; i < carritoStorage.length; i++){
@@ -203,31 +178,57 @@ function crearProductos (){
         }   
     }
 }
-// Funcion que cambia la cantidad, y crea los prodctos de nuevo para actualizar el resumen 
+
+// Funcion que crea y actualiza el resumen de la compra
+function crearResumen (carritoStorage){
+    function cantidadResumen(productos,cantidad) {
+        let total = 0
+        productos.forEach(item => total += item[cantidad])
+        return total
+    }
+    
+    function precioResumen(productos,cantidad,precio) {
+        let total = 0
+        productos.forEach(item => total += (item[cantidad] * item[precio]))
+        return total
+    }
+    
+    let cantidadTotal = cantidadResumen(carritoStorage,"cantidad")
+    let precioTotal = precioResumen(carritoStorage,"cantidad","precio")
+    
+    function unoOVariosProductos(){
+        if(cantidadTotal === 1){
+            return "producto"
+        }else{
+            return "productos"
+        }
+    }
+    const DIV_RESUMEN = $("#precioTotal")
+    const RESUMEN_CARRO = $(`<p class="row">TOTAL: ${cantidadTotal} ${unoOVariosProductos()} ($${precioTotal})</p>`)
+        
+    DIV_RESUMEN.append(RESUMEN_CARRO)
+    
+    function actualizarBadgeCarrito(cantidadTotal){
+        $("span.badge").text(cantidadTotal)
+    }
+    actualizarBadgeCarrito(cantidadTotal)
+}
+
+// Funcion que cambia la cantidad, y crea los productos de nuevo para actualizar el resumen 
 function cambiarValor(event){
     let cantidad = parseInt($(this).val())
-    let productoId = event.target.attributes[0].value
-    let productoTalla = event.target.attributes[1].value
+    let producto = new ProductoEnCarro(event.target.attributes[0].value, event.target.attributes[1].value)
     let carrito = JSON.parse(localStorage.getItem("carrito"))
-    let actualizaCantidad = () => {
-        carrito.forEach(item => {
-            if(item.id === productoId && item.talla === productoTalla){
-                item.cantidad = cantidad
-                return carrito
-            }
-        })
-        localStorage.setItem("carrito", JSON.stringify(carrito))
-    }
-    actualizaCantidad()
+    let itemEnCarrito = carrito.filter((item) => item.id === producto.id && item.talla === producto.talla)
+    itemEnCarrito[0].cantidad = cantidad
+    localStorage.setItem("carrito", JSON.stringify(carrito))
     crearProductos()
 }
 
 function removerProducto(event){
-    let productoId = event.target.attributes[0].value
-    let productoTalla = event.target.attributes[1].value
-    
+    let producto = new ProductoEnCarro(event.target.attributes[0].value, event.target.attributes[1].value)
     let carrito = JSON.parse(localStorage.getItem("carrito"))
-    carrito.splice(carrito.findIndex(item => item.id === productoId && item.talla === productoTalla),1)
+    carrito.splice(carrito.findIndex(item => item.id === producto.id && item.talla === producto.talla),1)
     localStorage.setItem("carrito", JSON.stringify(carrito))
     crearProductos()
 }
@@ -239,3 +240,6 @@ function limpiarDuplicadosCarrito(){
     $("#precioTotal").empty()
     $("#listaProductosCarrito").empty()
 }
+
+// Evento para ir al checkout
+$("#checkout").click( () => location.assign("checkout.html"))

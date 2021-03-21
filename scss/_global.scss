@@ -179,7 +179,14 @@ footer {
         }
 }
 
-// Modal Styles
+// Modal Styles and cart
+
+.icon-cart .badge{
+    font-size: 12px;
+    position: absolute;
+    margin-top: -8px;
+    margin-left: -5px;
+}
 
 #listaProductosCarrito {
 

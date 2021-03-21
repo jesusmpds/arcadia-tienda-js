@@ -1,5 +1,5 @@
 
-// Variables ---->
+// Variables Globales---->
 let i = 0
 let listaProductos = []
 let productosEnCarrito = []
@@ -10,12 +10,18 @@ let containerCalzas = $("#calzasTienda")
 // Objetos ---->  
 
 class Producto {
-    constructor(id,nombre, precio, cantidad, talla,imagen){
+    constructor(id, nombre, precio, cantidad, talla, imagen){
         this.id = id
         this.nombre = nombre
         this.precio = precio
         this.cantidad = cantidad
         this.talla = talla
         this.imagen = imagen
+    }
+}
+class ProductoEnCarro {
+    constructor(id, talla){
+        this.id = id
+        this.talla = talla
     }
 }

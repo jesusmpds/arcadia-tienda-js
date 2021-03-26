@@ -233,13 +233,13 @@ function removerProducto(event){
     crearProductos()
 }
 
-//Cuando se hace click en el boton del carrito se generan los productos
-$(".icon-cart").click(crearProductos)
-
 function limpiarDuplicadosCarrito(){
     $("#precioTotal").empty()
     $("#listaProductosCarrito").empty()
 }
+
+//Cuando se carga la pagina se generan los productos que estan en el carro
+$(document).ready(crearProductos)
 
 // Evento para ir al checkout
 $("#checkout").click( () => location.assign("checkout.html"))

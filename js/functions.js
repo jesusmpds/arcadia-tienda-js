@@ -134,7 +134,7 @@ function crearProductos (){
 
         const DIV_COL = $('<div class="container flex-column justify-content-center"></div>')
         const PARRAFO = $('<p>Añade un producto al carrito para poder comprar.</p>')
-        const BOTON = $('<a href="/pages/tienda.html" class="btn btn-primary">Ir a la tienda</a>')
+        const BOTON = $('<a href="/arcadia-tienda-js/pages/tienda.html" class="btn btn-primary">Ir a la tienda</a>')
 
         DIV_PRODUCTOS.append(DIV_COL)
         DIV_COL.append(PARRAFO,BOTON)

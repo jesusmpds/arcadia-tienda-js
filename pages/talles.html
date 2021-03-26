@@ -37,10 +37,39 @@
                     <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
                 </ul>
             </div>
-            <div class="iconsHeader wow fadeInDown mr-3 text-white order-1 order-lg-2 order-xl-2">
+            <div class="iconsHeader wow fadeInDown mr-3 order-1 order-lg-2 order-xl-2">
                 <i class="icon-search"></i>
                 <i class="icon-user"></i>
-                <i class="icon-cart"></i>
+                <!-- Button trigger modal -->
+                <i class="icon-cart" type="button" data-toggle="modal" data-target="#modalCarrito">
+                    <span class="badge badge-dark">0</span>
+                </i>
+                
+                      <!-- Modal -->
+                      <div class="modal fade " id="modalCarrito" tabindex="-1" role="dialog" aria-labelledby="modalCarrito" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg modal-xl" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h2 class="modal-title" id="exampleModalCenterTitle">TU CARRITO</h2>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body" id="carritoBody">
+                                <div class="container-fluid" id="precioTotal">
+                                    <!--  Resumen de la compra va aqui -->
+                                </div>
+                                <div class="container-fluid" id="listaProductosCarrito">
+                                     <!-- Los productos van aquí -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              <button type="button" id="checkout" class="btn btn-primary">Ir a pagar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
             </div> 
         </nav>
     </header>
@@ -165,5 +194,8 @@
             new WOW().init();
         </script>
         <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/objects.js"></script>
+        <script src="../js/functions.js"></script>
+        <script src="../js/scripts.js"></script>
     </body>
 </html>

@@ -125,9 +125,20 @@ function enCarrito(nuevoProducto,arrayCarrito){
 
 //Crea los productos en el carrito
 function crearProductos (){
+    const DIV_PRODUCTOS = $("#listaProductosCarrito")
     let carritoStorage = JSON.parse(localStorage.getItem("carrito"))
     
     limpiarDuplicadosCarrito()
+
+    if(carritoStorage === null || carritoStorage.length === 0){
+
+        const DIV_COL = $('<div class="container flex-column justify-content-center"></div>')
+        const PARRAFO = $('<p>Añade un producto al carrito para poder comprar.</p>')
+        const BOTON = $('<a href="/javascript/proyectoFinal/arcadia-tienda/pages/tienda.html" class="btn btn-primary">Ir a la tienda</a>')
+
+        DIV_PRODUCTOS.append(DIV_COL)
+        DIV_COL.append(PARRAFO,BOTON)
+    }
     
     if(carritoStorage !== null){
     //Creo resumen de la compra
@@ -142,7 +153,6 @@ function crearProductos (){
     		let tallaEnCarro = carritoStorage[i].talla
     		let imagenEnCarro = carritoStorage[i].imagen
     		
-    		const DIV_PRODUCTOS = $("#listaProductosCarrito")
     		const PRODUCTO_DIV = $(`<div class="media border rounded w-100 mb-2"></div>`)
     		const DIV_IMAGEN = $(`<div class="col-6 col-md-4"></div>`)
             const IMG_PRODUCTO = $(`<img src="${imagenEnCarro}" class="mr-3 w-100">`)
@@ -240,6 +250,7 @@ function limpiarDuplicadosCarrito(){
 
 //Cuando se carga la pagina se generan los productos que estan en el carro
 $(document).ready(crearProductos)
+$(".icon-cart").on("click",crearProductos)
 
 // Evento para ir al checkout
 $("#checkout").click( () => location.assign("checkout.html"))
